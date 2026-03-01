@@ -43,21 +43,22 @@ app/
 
 ## 環境構築
 
-### 前提条件
+### macOS
 
-- [OrbStack](https://orbstack.dev/) がインストールされていること
+#### 前提条件
+
 - Node.js 20 以上
-- npm
+- [OrbStack](https://orbstack.dev/)（Docker Desktop の代替。起動が速くメモリ消費が少ない）
 
-### 1. OrbStack のインストール
+#### 1. OrbStack のインストール
 
 ```bash
 brew install orbstack
 ```
 
-インストール後、OrbStack を起動するとメニューバーに常駐します。Docker Desktop の代替として動作し、起動が速くメモリ消費も少ないのが特徴です。
+インストール後、OrbStack を起動するとメニューバーに常駐します。
 
-### 2. リポジトリのクローン・依存パッケージのインストール
+#### 2. リポジトリのクローン・依存パッケージのインストール
 
 ```bash
 git clone <repository-url>
@@ -65,45 +66,76 @@ cd RemixTutorialTodoApp
 npm install
 ```
 
-### 3. 環境変数の設定
+#### 3. 環境変数の設定
 
 ```bash
 cp .env.example .env
 ```
 
-`.env` の内容（デフォルト値で動作します）:
-
-```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5434/todo_app"
-```
-
-### 4. PostgreSQL の起動
-
-OrbStack が起動している状態で実行してください。
+#### 4. PostgreSQL の起動
 
 ```bash
 docker compose up -d
 ```
 
-起動確認:
+---
 
-```bash
-docker compose ps
+### Windows
+
+#### 前提条件
+
+- Node.js 20 以上（[公式サイト](https://nodejs.org/)からインストーラーでインストール）
+- [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+- WSL 2 が有効化されていること（Docker Desktop のインストール時に案内されます）
+
+#### 1. Docker Desktop のインストール
+
+1. [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/) からインストーラーをダウンロード
+2. インストーラーを実行し、**Use WSL 2 instead of Hyper-V** にチェックを入れてインストール
+3. インストール後、PC を再起動
+4. Docker Desktop を起動してタスクトレイに常駐していることを確認
+
+#### 2. リポジトリのクローン・依存パッケージのインストール
+
+PowerShell またはコマンドプロンプトで実行:
+
+```powershell
+git clone <repository-url>
+cd RemixTutorialTodoApp
+npm install
 ```
 
-### 5. DB マイグレーション
+#### 3. 環境変数の設定
+
+```powershell
+copy .env.example .env
+```
+
+#### 4. PostgreSQL の起動
+
+Docker Desktop が起動している状態で実行:
+
+```powershell
+docker compose up -d
+```
+
+---
+
+### 共通手順（macOS / Windows）
+
+#### 5. DB マイグレーション
 
 ```bash
 npx prisma migrate deploy
 ```
 
-初回セットアップ時や schema.prisma を変更した後は:
+初回セットアップ時や `schema.prisma` を変更した後は:
 
 ```bash
 npx prisma migrate dev --name <migration-name>
 ```
 
-### 6. 開発サーバーの起動
+#### 6. 開発サーバーの起動
 
 ```bash
 npm run dev
